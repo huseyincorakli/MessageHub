@@ -42,9 +42,11 @@ app.get(`/${text}/:id`, (req, res) => {
 //get github repo
 app.get("/githubdata", (req, res) => {
   const ClientUrl = req.headers.origin;
+  console.log(`client url:${ClientUrl}`);
   if (checkForAllow(ClientUrl)) {
     var jsonfile = require("./githubdata");
     res.send(JSON.stringify(jsonfile));
+    console.log('success!');
   }
   else{
     res.send('not allowed')
