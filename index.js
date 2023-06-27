@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const twilio = require("twilio");
-const client = new twilio(accountSid, authToken);
 const getGithubDatas = require("./getGithubData");
 const checkForAllow = require("./checkForAllow");
 require("dotenv").config();
@@ -15,7 +14,7 @@ const text = process.env.TEXT;
 const accountSid = `AC${id}`;
 const authToken = token;
 
-
+const client = new twilio(accountSid, authToken);
 const app = express();
 
 app.use(cors());
