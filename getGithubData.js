@@ -1,6 +1,7 @@
 const oc = require("octokit");
 const fs = require('fs');
 require("dotenv").config();
+const checkForPublic = require('./checkForPublic')
 
 const octokit = new oc.Octokit({
   auth: process.env.GITHUB_AUTH,
@@ -14,13 +15,14 @@ const getGithubData = async () => {
       if (err) {
          console.log('error!')
       }
+       const datax =  checkForPublic(githubData.data)
       try {
+        console.log(data);
           if (data) {
               data=null
           }
           if (!data) {
-            const datas=JSON.stringify(githubData.data, null, 2)
-            console.log(datas[0].id);
+            const datas=JSON.stringify(datax, null, 2)
               fs.writeFile(path, datas, (err) => {
                   if (err) {
                     console.error('Dosya oluşturma hatası:', err);
