@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const twilio = require("twilio");
+const fs = require("fs");
 const getGithubDatas = require("./getGithubData");
 const checkForAllow = require("./checkForAllow");
 require("dotenv").config();
@@ -43,18 +44,25 @@ app.get(`/${text}/:id`, (req, res) => {
 app.get("/githubdata", (req, res) => {
   const ClientUrl = req.headers.origin;
   console.log(`client url:${ClientUrl}`);
+
   if (checkForAllow(ClientUrl)) {
-    var jsonfile = require("./githubdata");
-    res.send(JSON.stringify(jsonfile));
-    console.log('success!');
-  }
-  else{
-    res.send('not allowed')
-    console.log('not ok!!!!');
+    getGithubDatas()
+      .then(() => {
+        const jsonfile = require("./githubdata.json");
+        const jsonData = fs.readFileSync("./githubdata.json", "utf-8");
+        res.send(jsonData);
+        console.log("Success!");
+      })
+      .catch((error) => {
+        console.error("Hata oluştu:", error);
+        res.send("Hata oluştu");
+      });
+  } else {
+    res.send("Not allowed");
+    console.log("Not ok!!!!");
   }
 });
 
-getGithubDatas();
 app.listen(port, () => {
   console.log(`${port} aktif`);
 });
