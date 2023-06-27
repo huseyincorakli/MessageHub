@@ -16,5 +16,5 @@ pyvenv.cfg
 .env
 pip-selfcheck.json
 githubdata.json
-
+node_modules
 # End of https://www.toptal.com/developers/gitignore/api/virtualenv
